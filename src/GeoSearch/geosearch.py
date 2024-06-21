@@ -250,7 +250,7 @@ class Geosearch:
 
     @staticmethod
     def _indexfile(filein, indexdir, descr, overwrite=True, append=True):
-        if overwrite:
+        if overwrite or (not os.path.exists(indexdir)):
             os.makedirs(indexdir, exist_ok=True)
             whooidx = wi.create_in(indexdir, Geosearch.schema)
         else:
@@ -443,12 +443,16 @@ class Geosearch:
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--download', action="store_true", help='Download geonames')
+    parser.add_argument('--download_url', help="Geonames database url",
+                        default="https://download.geonames.org/export/dump/allCountries.zip")
+    parser.add_argument('--update', action="store_true",
+                        help="Overwrites current database")
     parser.add_argument('--query', type=str, help='Query by name')
     parser.add_argument('--query_coord', type=str, help='Query by geocoordinates(lat, lon)')
     args = parser.parse_args()
 
     if args.download:
-        Geosearch.download()
+        Geosearch.download(data_url=args.download_url, overwrite=not args.update)
 
     qresult = []
 

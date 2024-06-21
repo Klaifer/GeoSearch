@@ -12,15 +12,19 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/Klaifer/geosearch",
-    packages=[],
+    packages=["GeoSearch"],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.7',
-    py_modules=["geosearch"],
-    package_dir={'':'GeoSearch/src'},
+    package_dir={'GeoSearch':'src/GeoSearch'},
     install_requires=["Whoosh>=2.7.4", "beautifulsoup4", "lxml", "tqdm"],
-    include_package_data=True
+    include_package_data=True,
+    entry_points={
+        "console_scripts": [
+            "GeoSearch = GeoSearch.geosearch:__main__"
+        ]
+    }
 )
