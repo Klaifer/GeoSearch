@@ -42,5 +42,5 @@ Our tool allows you to search by name or geographic position, returning attribut
 	
 ## Terminal search
 
-	python -m Geosearch --query "São Paulo"
-	python -m Geosearch --query_coord "-23.223,-45.894"
+	python -m Geosearch.geosearch --query "São Paulo"
+	python -m Geosearch.geosearch --query_coord "-23.223,-45.894"
