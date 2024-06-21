@@ -15,7 +15,7 @@ Our tool allows you to search by name or geographic position, returning attribut
 
 ## Database installation
 
-	from geosearch import Geosearch
+	from GeoSearch.geosearch import GeoSearch
 	
 	\# To download the complete database, it takes ~12Gb and can be slow 
 	Geosearch.download() 
@@ -26,10 +26,10 @@ Our tool allows you to search by name or geographic position, returning attribut
 
 ## Basic Usage
 
-    from geosearch import Geosearch
+    from GeoSearch.geosearch import GeoSearch
 	
 	
-    gsearch = Geosearch()
+    gsearch = GeoSearch()
 	res = gsearch.query("São Paulo")
 	print(res)
 
