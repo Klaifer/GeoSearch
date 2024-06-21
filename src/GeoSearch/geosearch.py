@@ -20,7 +20,7 @@ class FuzzyTerm2(wq.FuzzyTerm):
         super(FuzzyTerm2, self).__init__(fieldname, text, boost, maxdist, prefixlength, constantscore)
 
 
-class Geosearch:
+class GeoSearch:
     DEFAULT_DATA = "https://download.geonames.org/export/dump/allCountries.zip"
     DEFAULT_CODES = "http://www.geonames.org/export/codes.html"
 
@@ -60,7 +60,7 @@ class Geosearch:
         self.place_codes = None
 
         if not download_path:
-            self._download_dir = Geosearch._get_download_path()
+            self._download_dir = GeoSearch._get_download_path()
         index_dir = os.path.join(self._download_dir, "indexdir")
 
         try:
@@ -171,17 +171,17 @@ class Geosearch:
         :return:
         """
         if not download_path:
-            download_path = Geosearch._get_download_path()
+            download_path = GeoSearch._get_download_path()
         if not data_url:
-            data_url = Geosearch.DEFAULT_DATA
+            data_url = GeoSearch.DEFAULT_DATA
         if not codes_url:
-            codes_url = Geosearch.DEFAULT_CODES
+            codes_url = GeoSearch.DEFAULT_CODES
 
         geonames_path = os.path.join(download_path, "geonames")
         os.makedirs(geonames_path, exist_ok=True)
 
         try:
-            Geosearch._build_feature_codes(os.path.join(download_path, "placecodes.json"), codes_url)
+            GeoSearch._build_feature_codes(os.path.join(download_path, "placecodes.json"), codes_url)
         except AttributeError:
             warnings.warn(
                 "Unable to update geocodes. The results will not include the full description of location codes.")
@@ -198,7 +198,7 @@ class Geosearch:
         for filein in content_files:
             try:
                 fullpath = os.path.join(geonames_path, filein)
-                Geosearch._indexfile(fullpath, index_dir, filein, overwrite=overwrite, append=append)
+                GeoSearch._indexfile(fullpath, index_dir, filein, overwrite=overwrite, append=append)
                 overwrite=False
                 os.remove(fullpath)
             except Exception as e:
@@ -252,7 +252,7 @@ class Geosearch:
     def _indexfile(filein, indexdir, descr, overwrite=True, append=True):
         if overwrite or (not os.path.exists(indexdir)):
             os.makedirs(indexdir, exist_ok=True)
-            whooidx = wi.create_in(indexdir, Geosearch.schema)
+            whooidx = wi.create_in(indexdir, GeoSearch.schema)
         else:
             whooidx = wi.open_dir(indexdir)
 
@@ -391,8 +391,8 @@ class Geosearch:
 
         # Check if we have sufficient permissions to install in a
         # variety of system-wide locations.
-        for geosearchdir in Geosearch._default_paths():
-            if os.path.exists(geosearchdir) and Geosearch._is_writable(geosearchdir):
+        for geosearchdir in GeoSearch._default_paths():
+            if os.path.exists(geosearchdir) and GeoSearch._is_writable(geosearchdir):
                 return geosearchdir
 
         # On Windows, use %APPDATA%
@@ -452,17 +452,17 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if args.download:
-        Geosearch.download(data_url=args.download_url, overwrite=not args.update)
+        GeoSearch.download(data_url=args.download_url, overwrite=not args.update)
 
     qresult = []
 
     if args.query_coord:
-        gsearch = Geosearch()
+        gsearch = GeoSearch()
         lat, lon = map(float, args.query_coord.split(","))
         qresult = gsearch.query_coord(lat, lon, limit=10)
 
     if args.query:
-        gsearch = Geosearch()
+        gsearch = GeoSearch()
         qresult = gsearch.query(args.query, limit=10)
 
     for sres in qresult:
