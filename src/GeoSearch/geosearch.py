@@ -133,6 +133,10 @@ class GeoSearch:
 
         return found
 
+    def hierarchy(self, sample):
+        with self.whooidx.searcher() as searcher:
+            self._add_hierarchy(sample, searcher)
+
     def _response(self, result, searcher, hierarchy, expand_codes):
         found = []
         if result:
