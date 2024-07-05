@@ -70,7 +70,7 @@ class GeoSearch:
                 "The database was not found. Execute download() first."
             )
 
-    def query(self, querystr, limit=10, maxdist=2, hierarchy=True, expand_codes=True):
+    def find(self, querystr, limit=10, maxdist=2, hierarchy=True, expand_codes=True):
         """
         Search by place name
 
@@ -111,7 +111,7 @@ class GeoSearch:
 
         return found
 
-    def query_coord(self, lat, lon, limit=10, range=0.001, hierarchy=True, expand_codes=True):
+    def findpos(self, lat, lon, limit=10, range=0.001, hierarchy=True, expand_codes=True):
         """
         Search by geographic coordinates
 
